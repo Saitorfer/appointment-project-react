@@ -1,12 +1,15 @@
-function App() {
+import Form from "./components/Form";
+import Header from "./components/Header";
+import PatientList from "./components/PatientList";
 
+function App() {
   return (
-    <>
-      <div>
-          <h1>Hola mundo</h1>
-      </div>
-    </>
-  )
+    <div>
+      <Header />
+      <Form />
+      <PatientList />
+    </div>
+  );
 }
 
-export default App
+export default App;
