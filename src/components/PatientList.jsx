@@ -2,7 +2,9 @@ import React from "react";
 import Patient from "./Patient";
 
 
-function PatientList() {
+function PatientList({ patients }) {
+
+
   return (
     <>
       <div className="md:w-1/2 lg;w-3/5 md:h-screen overflow-y-scroll">
@@ -13,10 +15,12 @@ function PatientList() {
           <span className="text-indigo-600 font-bold">Patients and Appointments</span>
         </p>
 
-        <Patient />
-        <Patient />
-        <Patient />
-        <Patient />
+        {patients.map((patient, index) => (
+          <Patient
+            key={index}
+            patient={patient}
+          />
+        ))}
 
       </div>
     </>
