@@ -2,7 +2,7 @@ import React from "react";
 import Patient from "./Patient";
 
 
-function PatientList({ patients }) {
+function PatientList({ patients, setPatient }) {
 
   return (
     <>
@@ -22,12 +22,13 @@ function PatientList({ patients }) {
                 // now we use a randomID in From class
                 key={patient.id}
                 patient={patient}
+                setPatient={setPatient}
               />
             ))}
 
           </>
         ) : (
-          //if there is no elements in patient list
+          //if there is NO elements in patient list
           <>
             <h2 className="font-black text-3xl text-center"> Nothing to show </h2>
 
