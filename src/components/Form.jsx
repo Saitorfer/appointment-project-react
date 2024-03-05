@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 import Error from "./Error";
 
 function Form({ setPatients, patients }) {
-
   const [name, setName] = useState("");
   const [owner, setOwner] = useState("");
   const [email, setEmail] = useState("");
@@ -11,27 +10,33 @@ function Form({ setPatients, patients }) {
 
   const [error, setError] = useState(false);
 
+  const generateID = () => {
+    const date = Date.now().toString(36);
+    const random = Math.random().toString(36).substr(2);
+
+    return random + date;
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     //Validate Form
-
     if ([name, owner, email, entryDate, symptoms].includes("")) {
       setError(true);
       //stop here, dont execute the rest of the code
       return;
     }
-
     setError(false);
-
     //Build the patient Object
     const objectPatient = {
       name,
       owner,
       email,
       entryDate,
-      symptoms
-    }
+      symptoms,
+      //we generate a randomID
+      id: generateID()
+    };
     //we create a copy of patients (list) and we add the new objectpatient (patient)
     setPatients([...patients, objectPatient]);
 
@@ -41,28 +46,33 @@ function Form({ setPatients, patients }) {
     setEmail("");
     setEntryDate("");
     setSymptoms("");
-
   };
 
   return (
     <>
       <div className="md:w-1/2 lg:2/5 mx-5">
-        <h2 className="font-black text-3xl text-center"> Patient Monitoring </h2>
+        <h2 className="font-black text-3xl text-center">
+          {" "}
+          Patient Monitoring{" "}
+        </h2>
 
         <p className="text-lg mt-5 text-center mb-10">
-          Add Patient and {''}
+          Add Patient and {""}
           <span className="text-indigo-600 font-bold">Manage them</span>
         </p>
 
         <form
           onSubmit={handleSubmit}
-          className="bg-white shadow-md rounded-lg py-10 px-5 mb-10">
-
+          className="bg-white shadow-md rounded-lg py-10 px-5 mb-10"
+        >
           {/* the error message (if error is true he send the div)*/}
           {error && <Error message="All fields must be completed" />}
 
           <div className="mb-5">
-            <label htmlFor="pet" className="block text-gray-700 uppercase font-bold">
+            <label
+              htmlFor="pet"
+              className="block text-gray-700 uppercase font-bold"
+            >
               Pet Name
             </label>
             <input
@@ -76,7 +86,10 @@ function Form({ setPatients, patients }) {
           </div>
 
           <div className="mb-5">
-            <label htmlFor="owner" className="block text-gray-700 uppercase font-bold">
+            <label
+              htmlFor="owner"
+              className="block text-gray-700 uppercase font-bold"
+            >
               Owner Name
             </label>
             <input
@@ -90,7 +103,10 @@ function Form({ setPatients, patients }) {
           </div>
 
           <div className="mb-5">
-            <label htmlFor="email" className="block text-gray-700 uppercase font-bold">
+            <label
+              htmlFor="email"
+              className="block text-gray-700 uppercase font-bold"
+            >
               Email
             </label>
             <input
@@ -104,7 +120,10 @@ function Form({ setPatients, patients }) {
           </div>
 
           <div className="mb-5">
-            <label htmlFor="entryDate" className="block text-gray-700 uppercase font-bold">
+            <label
+              htmlFor="entryDate"
+              className="block text-gray-700 uppercase font-bold"
+            >
               Entry Date
             </label>
             <input
@@ -117,7 +136,10 @@ function Form({ setPatients, patients }) {
           </div>
 
           <div className="mb-5">
-            <label htmlFor="symptoms" className="block text-gray-700 uppercase font-bold">
+            <label
+              htmlFor="symptoms"
+              className="block text-gray-700 uppercase font-bold"
+            >
               Symptoms
             </label>
             <textarea
@@ -135,12 +157,10 @@ function Form({ setPatients, patients }) {
             hover:bg-indigo-700 cursor-pointer transition-all"
             value="Add Patient"
           />
-
         </form>
-
       </div>
     </>
-  )
+  );
 }
 
 export default Form;
