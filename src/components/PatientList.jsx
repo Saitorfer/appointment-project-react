@@ -1,8 +1,9 @@
+
 import React from "react";
 import Patient from "./Patient";
 
 
-function PatientList({ patients, setPatient }) {
+function PatientList({ patients, setPatient, deletePatient }) {
 
   return (
     <>
@@ -23,6 +24,7 @@ function PatientList({ patients, setPatient }) {
                 key={patient.id}
                 patient={patient}
                 setPatient={setPatient}
+                deletePatient={deletePatient}
               />
             ))}
 

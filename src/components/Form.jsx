@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Error from "./Error";
 
-function Form({ setPatients, patients, patient }) {
+function Form({ setPatients, patients, patient, setPatient }) {
   const [name, setName] = useState("");
   const [owner, setOwner] = useState("");
   const [email, setEmail] = useState("");
@@ -9,6 +9,19 @@ function Form({ setPatients, patients, patient }) {
   const [symptoms, setSymptoms] = useState("");
 
   const [error, setError] = useState(false);
+
+  //edit part
+  useEffect(() => {
+
+    if (Object.keys(patient).length > 0) {
+      setName(patient.name);
+      setOwner(patient.owner);
+      setEmail(patient.email);
+      setEntryDate(patient.entryDate);
+      setSymptoms(patient.symptoms);
+    }
+
+  }, [patient])
 
   const generateID = () => {
     const date = Date.now().toString(36);
@@ -34,11 +47,29 @@ function Form({ setPatients, patients, patient }) {
       email,
       entryDate,
       symptoms,
-      //we generate a randomID
-      id: generateID()
     };
-    //we create a copy of patients (list) and we add the new objectpatient (patient)
-    setPatients([...patients, objectPatient]);
+
+    //to know if its a new patient or an existing one
+    if (patient.id) {
+
+      objectPatient.id = patient.id;
+
+      //we look all the patients and identify which one have the same id
+      //when he found him he reutn the objectPatient (the edit patient enter here)
+      //if the object doesnt have the same id he return the patientState (the otehrs patient enter here)
+      const updatedPatients = patients.map(patientState => patientState.id ===
+        patient.id ? objectPatient : patientState)
+
+      setPatients(updatedPatients);
+      //clean the patient selected
+      setPatient({});
+
+    } else {
+      //we generate a randomID for new patients
+      objectPatient.id = generateID()
+      //we create a copy of patients (list) and we add the new objectpatient (patient)
+      setPatients([...patients, objectPatient]);
+    }
 
     //reset form
     setName("");
@@ -155,7 +186,8 @@ function Form({ setPatients, patients, patient }) {
             type="submit"
             className="bg-indigo-600 w-full p-3 text-white uppercase font-bold 
             hover:bg-indigo-700 cursor-pointer transition-all"
-            value="Add Patient"
+            //if we edit a patient change the button
+            value={patient.id ? "Edit patient" : "Add Patient"}
           />
         </form>
       </div>
